@@ -4,7 +4,6 @@ load_dotenv()  # Load environment variables from .env file
 from langchain_core.output_parsers import StrOutputParser
 out = StrOutputParser();
 
-
 from langchain_google_genai import ChatGoogleGenerativeAI
 # llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash"); 
 

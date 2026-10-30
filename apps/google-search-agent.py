@@ -5,6 +5,9 @@ from serpapi_search_tools import web_search
 from langchain.agents import create_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
 
+# memory implementation
+from langgraph.checkpoint.memory import InMemorySaver
+
 
 llm = ChatGoogleGenerativeAI(model="gemini-3.5-flash");
 
@@ -14,7 +17,8 @@ agent = create_agent(
     tools=[
         web_search(),
     ],
-    system_prompt = "You are a search agent and can search for any question on Google"
+    system_prompt = "You are a search agent and can search for any question on Google",
+    checkpointer = InMemorySaver()
 );
 
 while True:
@@ -25,7 +29,8 @@ while True:
         break;
 
     result = agent.invoke(
-    {"messages": [{"role": "user", "content": query}]}
+    {"messages": [{"role": "user", "content": query}]},
+    {"configurable" : {"thread_id" : "1"}}
     )
     print("AI :", result['messages'][-1].content);
 
